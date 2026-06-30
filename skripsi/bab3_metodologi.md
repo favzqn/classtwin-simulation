@@ -8,7 +8,7 @@ Dari sudut pandang desain penelitian, pendekatan yang digunakan mengikuti kerang
 
 Pendekatan kuantitatif digunakan karena seluruh variabel yang dianalisis (IPK rata-rata, tingkat kegagalan, tingkat stres, tingkat kehadiran) direpresentasikan sebagai nilai numerik yang dapat dibandingkan secara statistik menggunakan metrik agregat dan interval kepercayaan.
 
-Model diimplementasikan menggunakan **Mesa** (Kazil et al., 2020), kerangka kerja simulasi berbasis agen berbasis Python. Pemilihan Mesa atas alternatif seperti NetLogo atau Repast didasarkan pada: (1) integrasi langsung dengan ekosistem Python (NumPy, pandas, Streamlit), (2) reprodusibilitas penuh melalui `requirements.txt` dan konfigurasi JSON terserialisasi, dan (3) aksesibilitas pengembangan lanjutan bagi peneliti yang familiar dengan Python.
+Model diimplementasikan menggunakan Python, dengan pustaka-pustaka standar seperti NumPy dan pandas. Pemilihan Python didasarkan pada: (1) ekosistem pustaka ilmiah yang luas (NumPy, pandas, Streamlit), (2) reprodusibilitas penuh melalui requirements.txt dan konfigurasi JSON terserialisasi, dan (3) aksesibilitas pengembangan lanjutan bagi peneliti yang familiar dengan Python.
 
 ---
 
@@ -36,8 +36,8 @@ Tabel 3.1 merangkum tahapan dan jadwal pelaksanaan penelitian.
 |---|---|---|
 | 1 | Studi literatur & perumusan masalah | Oktober–November 2025 |
 | 2 | Perancangan arsitektur model & konfigurasi agen | November–Desember 2025 |
-| 3 | Implementasi model (Mesa + Pydantic) | Desember 2025–Januari 2026 |
-| 4 | Desain & eksekusi skenario eksperimen (15 skenario) | Februari–Maret 2026 |
+| 3 | Implementasi model (Python + Pydantic) | Desember 2025–Januari 2026 |
+| 4 | Desain & eksekusi skenario eksperimen (16 skenario) | Februari–Maret 2026 |
 | 5 | Analisis sensitivitas OAT & uji validasi | Maret–April 2026 |
 | 6 | Pengembangan dashboard Streamlit | April 2026 |
 | 7 | Penulisan laporan & revisi | April–Juni 2026 |
@@ -68,8 +68,8 @@ Gambar 3.1 menunjukkan diagram alur keseluruhan proses penelitian, dari identifi
 Tahapan penelitian terdiri dari empat fase utama:
 
 1. **Fase Perancangan**: Studi literatur psikologi pendidikan → identifikasi variabel kunci → perancangan arsitektur agen dan aturan pembaruan mingguan.
-2. **Fase Implementasi**: Pengkodean model menggunakan Mesa dan Python → konfigurasi 15 skenario eksperimen → pengembangan dashboard Streamlit.
-3. **Fase Eksperimen**: Eksekusi 15 skenario × 20 replikasi → analisis sensitivitas OAT → uji validasi (face validity, determinisme, clamp test, konvergensi).
+2. **Fase Implementasi**: Pengkodean model menggunakan Python → konfigurasi 16 skenario eksperimen → pengembangan dashboard Streamlit.
+3. **Fase Eksperimen**: Eksekusi 16 skenario × 20 replikasi → analisis sensitivitas OAT → uji validasi (face validity, determinisme, clamp test, konvergensi).
 4. **Fase Analisis**: Perbandingan metrik antar-skenario → penarikan kesimpulan terhadap 5 rumusan masalah → dokumentasi keterbatasan dan saran penelitian lanjutan.
 
 ---
@@ -82,7 +82,7 @@ Tahapan penelitian terdiri dari empat fase utama:
 
 *Gambar 3.1. Arsitektur model ClassTwin: SimulationConfig mendefinisikan seluruh parameter secara deklaratif, ClassroomModel mengorkestrasikan eksperimen, dan dua jenis agen (StudentAgent × N dan LecturerAgent × 1) menghasilkan output yang dianalisis oleh ScenarioRunner dan dashboard Streamlit.*
 
-Model *Classroom Ecosystem Digital Twin* (ClassTwin) adalah simulasi berbasis agen berjenis diskret-waktu (*discrete-time*) yang diimplementasikan menggunakan kerangka kerja Mesa (Kazil et al., 2020). Setiap langkah waktu merepresentasikan satu minggu perkuliahan, dan simulasi dijalankan selama 14 minggu (satu semester penuh).
+Model *Classroom Ecosystem Digital Twin* (ClassTwin) adalah simulasi berbasis agen berjenis diskret-waktu (*discrete-time*) yang diimplementasikan menggunakan Python. Setiap langkah waktu merepresentasikan satu minggu perkuliahan, dan simulasi dijalankan selama 14 minggu (satu semester penuh).
 
 Model terdiri dari dua jenis agen:
 
@@ -638,7 +638,7 @@ Untuk mengidentifikasi parameter kebijakan mana yang paling berpengaruh, dilakuk
 | Pembelajaran teman sebaya | Tidak aktif | Aktif | — | boolean |
 | Mode kelas (`class_mode`) | online | in_person | — | kategori |
 
-Setiap konfigurasi dijalankan sebanyak `n_runs = 3` *seed* untuk mengurangi *noise* stokastik, dengan metrik yang dilaporkan adalah IPK rata-rata kelas, tingkat kegagalan (%), dan standar deviasi IPK. Metrik sensitivitas yang digunakan adalah:
+Setiap konfigurasi dijalankan sebanyak `n_runs = 20` *seed* untuk mengurangi *noise* stokastik, dengan metrik yang dilaporkan adalah IPK rata-rata kelas, tingkat kegagalan (%), dan standar deviasi IPK. Metrik sensitivitas yang digunakan adalah:
 
 ```
 sensitivity(param) = |metric(high) − metric(low)| / metric(baseline)
