@@ -4,243 +4,737 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClassTwin — Classroom Ecosystem Digital Twin</title>
+    <meta name="description" content="Agent-based simulation for what-if policy analysis in higher education. Simulate a full semester before applying changes in real classrooms.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --text: #e6edf3;
-            --muted: #8b949e;
-            --accent: #58a6ff;
-            --green: #3fb950;
-            --border: #30363d;
+            --bg: #05070a;
+            --bg-elevated: #0c1017;
+            --bg-card: #111827;
+            --bg-card-hover: #1a2332;
+            --surface: #1f2937;
+            --border: #1e293b;
+            --border-subtle: #152033;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --blue: #3b82f6;
+            --blue-glow: rgba(59, 130, 246, 0.15);
+            --cyan: #06b6d4;
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --violet: #8b5cf6;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
-        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-        /* Hero */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* ========== NAV ========== */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 0;
+            background: rgba(5, 7, 10, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: var(--transition);
+        }
+        nav .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo {
+            font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;
+            font-weight: 500; transition: color var(--transition);
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta {
+            background: var(--blue) !important; color: #fff !important; padding: 8px 18px;
+            border-radius: 8px; font-weight: 600 !important;
+            transition: opacity var(--transition) !important;
+        }
+        .nav-cta:hover { opacity: 0.85; }
+
+        /* ========== HERO ========== */
         .hero {
+            position: relative;
+            padding: 160px 0 100px;
             text-align: center;
-            padding: 80px 0 48px;
+            overflow: hidden;
         }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--accent), var(--green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero::before {
+            content: '';
+            position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+            width: 900px; height: 900px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, rgba(6,182,212,0.04) 40%, transparent 70%);
+            pointer-events: none;
         }
-        .hero .subtitle {
-            font-size: 1.25rem;
-            color: var(--muted);
-            margin-bottom: 32px;
+        .hero::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
         }
-        .hero .desc {
-            font-size: 1.1rem;
-            max-width: 640px;
-            margin: 0 auto 40px;
-            color: var(--muted);
-        }
-        .hero .desc em { color: var(--text); font-style: normal; }
-        .buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-        .btn {
+        .hero-badge {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 28px; border-radius: 8px; font-size: 1rem;
-            font-weight: 600; text-decoration: none; transition: transform 0.1s;
+            padding: 6px 16px 6px 8px; border-radius: 100px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            font-size: 0.8rem; color: var(--text-secondary);
+            margin-bottom: 32px;
+            animation: fadeUp 0.8s ease both;
         }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-primary { background: var(--accent); color: var(--bg); }
-        .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
-
-        /* Features */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 48px 0; }
-        .feature {
-            background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px;
+        .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); animation: pulse 2s infinite; }
+        .hero h1 {
+            font-size: clamp(2.8rem, 7vw, 4.5rem); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1.1;
+            margin-bottom: 24px;
+            animation: fadeUp 0.8s 0.1s ease both;
         }
-        .feature h3 { font-size: 1.1rem; margin-bottom: 8px; }
-        .feature p { color: var(--muted); font-size: 0.95rem; }
-        .feature .icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--blue), var(--cyan), var(--emerald));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero .lead {
+            font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+            color: var(--text-secondary); max-width: 600px; margin: 0 auto 48px;
+            line-height: 1.7;
+            animation: fadeUp 0.8s 0.2s ease both;
+        }
+        .hero .lead em { color: var(--text); font-style: normal; font-weight: 600; }
+        .hero-buttons {
+            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+            animation: fadeUp 0.8s 0.3s ease both;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 28px; border-radius: var(--radius-sm); font-size: 0.95rem;
+            font-weight: 600; text-decoration: none; transition: all var(--transition);
+            font-family: 'Inter', sans-serif; cursor: pointer; border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), #2563eb);
+            color: #fff; box-shadow: 0 0 0 1px rgba(59,130,246,0.3), 0 4px 16px rgba(59,130,246,0.2);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 0 1px rgba(59,130,246,0.5), 0 8px 32px rgba(59,130,246,0.3);
+            transform: translateY(-2px);
+        }
+        .btn-ghost {
+            background: var(--bg-card); color: var(--text); border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+        .btn svg { width: 18px; height: 18px; }
 
-        /* Results table */
-        .results { padding: 32px 0; }
-        .results h2 { font-size: 1.6rem; margin-bottom: 24px; text-align: center; }
-        table {
-            width: 100%; border-collapse: collapse;
-            background: var(--card); border-radius: 12px; overflow: hidden;
+        /* ========== STATS ========== */
+        .stats {
+            padding: 64px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+            background: var(--border); border-radius: var(--radius); overflow: hidden;
             border: 1px solid var(--border);
         }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: #1c2128; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
-        td { font-size: 0.95rem; }
+        .stat {
+            background: var(--bg-elevated); padding: 32px 24px; text-align: center;
+        }
+        .stat-value {
+            font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em;
+            font-variant-numeric: tabular-nums;
+        }
+        .stat-value.blue { color: var(--blue); }
+        .stat-value.emerald { color: var(--emerald); }
+        .stat-value.amber { color: var(--amber); }
+        .stat-value.violet { color: var(--violet); }
+        .stat-label {
+            font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;
+            text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+        }
+
+        /* ========== SECTIONS ========== */
+        section { padding: 96px 0; }
+        section + section { border-top: 1px solid var(--border-subtle); }
+        .section-label {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.12em; color: var(--blue); margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800;
+            letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.2;
+        }
+        .section-desc {
+            font-size: 1.05rem; color: var(--text-secondary); max-width: 600px;
+            line-height: 1.7; margin-bottom: 48px;
+        }
+
+        /* ========== FEATURES ========== */
+        .features-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+        }
+        .feature-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 28px;
+            transition: all var(--transition); position: relative; overflow: hidden;
+        }
+        .feature-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--blue), transparent);
+            opacity: 0; transition: opacity var(--transition);
+        }
+        .feature-card:hover { border-color: rgba(59,130,246,0.2); background: var(--bg-card-hover); }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon {
+            width: 40px; height: 40px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2rem;
+            margin-bottom: 18px;
+        }
+        .feature-icon.blue { background: var(--blue-glow); color: var(--blue); }
+        .feature-icon.emerald { background: var(--emerald-glow); color: var(--emerald); }
+        .feature-icon.amber { background: rgba(245,158,11,0.12); color: var(--amber); }
+        .feature-icon.violet { background: rgba(139,92,246,0.12); color: var(--violet); }
+        .feature-icon.cyan { background: rgba(6,182,212,0.12); color: var(--cyan); }
+        .feature-icon.red { background: rgba(239,68,68,0.12); color: var(--red); }
+        .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+        .feature-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* ========== RESULTS ========== */
+        .results-wrap {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden;
+        }
+        .results-header {
+            padding: 24px 28px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .results-header h3 { font-size: 0.95rem; font-weight: 700; }
+        .results-header span {
+            font-size: 0.75rem; color: var(--text-muted); padding: 4px 12px;
+            background: var(--surface); border-radius: 100px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            padding: 12px 24px; text-align: left; font-size: 0.72rem;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--text-muted); font-weight: 700;
+            background: var(--bg-elevated); border-bottom: 1px solid var(--border);
+        }
+        td {
+            padding: 14px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-subtle);
+            font-variant-numeric: tabular-nums;
+        }
         tr:last-child td { border-bottom: none; }
-        tr.highlight td { font-weight: 700; }
-        .delta-pos { color: var(--green); }
-        .delta-neg { color: #f85149; }
+        tr:hover td { background: rgba(59,130,246,0.03); }
+        tr.highlight td { background: rgba(16,185,129,0.06); }
+        tr.highlight-bad td { background: rgba(239,68,68,0.06); }
+        .scenario-name { font-weight: 600; }
+        .badge {
+            display: inline-flex; padding: 3px 10px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 600;
+        }
+        .badge-up { background: rgba(16,185,129,0.12); color: var(--emerald); }
+        .badge-down { background: rgba(239,68,68,0.12); color: var(--red); }
+        .badge-base { background: var(--surface); color: var(--text-muted); }
 
-        /* Tech stack */
-        .stack { padding: 48px 0; text-align: center; }
-        .stack h2 { font-size: 1.6rem; margin-bottom: 24px; }
-        .stack-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .tag {
-            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-            padding: 8px 20px; font-size: 0.9rem; color: var(--muted);
+        /* ========== HOW IT WORKS ========== */
+        .pipeline {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+            align-items: center;
+        }
+        .pipeline-steps { display: flex; flex-direction: column; gap: 0; }
+        .step {
+            display: flex; gap: 20px; padding: 24px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 800;
+            background: var(--blue-glow); color: var(--blue);
+        }
+        .step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+        .step p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .pipeline-code {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 28px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+            overflow-x: auto; line-height: 1.8; color: var(--text-secondary);
+        }
+        .pipeline-code .comment { color: var(--text-muted); }
+        .pipeline-code .kw { color: var(--violet); }
+        .pipeline-code .fn { color: var(--blue); }
+        .pipeline-code .str { color: var(--emerald); }
+        .pipeline-code .num { color: var(--amber); }
+
+        /* ========== ARCHITECTURE ========== */
+        .arch-visual {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 48px 32px;
+            text-align: center;
+        }
+        .arch-flow {
+            display: flex; flex-direction: column; align-items: center; gap: 0;
+        }
+        .arch-box {
+            padding: 16px 28px; border-radius: var(--radius-sm);
+            font-weight: 600; font-size: 0.9rem; position: relative;
+            max-width: 400px; width: 100%;
+        }
+        .arch-box.config { background: var(--blue-glow); border: 1px solid rgba(59,130,246,0.2); color: var(--blue); }
+        .arch-box.model { background: var(--emerald-glow); border: 1px solid rgba(16,185,129,0.2); color: var(--emerald); }
+        .arch-box.agents { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.15); color: var(--violet); }
+        .arch-box.output { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15); color: var(--amber); }
+        .arch-box small { display: block; font-size: 0.75rem; font-weight: 400; opacity: 0.7; margin-top: 2px; }
+        .arch-arrow {
+            width: 1px; height: 24px; background: var(--border); position: relative;
+        }
+        .arch-arrow::after {
+            content: ''; position: absolute; bottom: -3px; left: -3px;
+            width: 7px; height: 7px; border-right: 1.5px solid var(--text-muted);
+            border-bottom: 1.5px solid var(--text-muted); transform: rotate(45deg);
+        }
+        .arch-branch {
+            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+        }
+        .arch-branch .arch-box { font-size: 0.82rem; padding: 12px 20px; }
+
+        /* ========== CTA ========== */
+        .cta-section {
+            text-align: center; padding: 100px 0; position: relative;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900;
+            letter-spacing: -0.04em; margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 40px;
+            max-width: 500px; margin-left: auto; margin-right: auto;
         }
 
-        /* Architecture */
-        .arch { padding: 48px 0; }
-        .arch h2 { font-size: 1.6rem; margin-bottom: 16px; text-align: center; }
-        .arch pre {
-            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-            padding: 24px; font-size: 0.85rem; overflow-x: auto; color: var(--muted);
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-        }
-
-        /* CTA */
-        .cta {
-            text-align: center; padding: 64px 0; border-top: 1px solid var(--border);
-            margin-top: 32px;
-        }
-        .cta h2 { font-size: 1.8rem; margin-bottom: 12px; }
-        .cta p { color: var(--muted); margin-bottom: 32px; }
-
-        /* Footer */
+        /* ========== FOOTER ========== */
         footer {
-            text-align: center; padding: 32px 0; color: var(--muted); font-size: 0.85rem;
+            padding: 40px 0; text-align: center;
             border-top: 1px solid var(--border);
+            font-size: 0.82rem; color: var(--text-muted);
         }
-        footer a { color: var(--accent); text-decoration: none; }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--text); }
+        footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+        }
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
+            .pipeline { grid-template-columns: 1fr; }
+            section { padding: 64px 0; }
+            .hero { padding: 120px 0 64px; }
+            td, th { padding: 10px 14px; font-size: 0.82rem; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
     </style>
 </head>
 <body>
 
+<!-- NAV -->
+<nav>
+    <div class="container">
+        <span class="nav-logo">ClassTwin</span>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#results">Results</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="https://github.com/favzqn/classtwin-simulation">GitHub</a>
+            <a href="https://classtwin-simulation.streamlit.app" class="nav-cta">Launch Dashboard</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
 <section class="hero">
     <div class="container">
-        <h1>ClassTwin</h1>
-        <p class="subtitle">Classroom Ecosystem Digital Twin</p>
-        <p class="desc">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Open-source research tool &middot; MIT License
+        </div>
+        <h1>
+            Simulate Your<br>
+            <span class="gradient">Classroom</span>
+        </h1>
+        <p class="lead">
             Run <em>what-if experiments</em> on virtual classrooms before applying real policy changes.
-            Simulate a full 14-week semester — class size, feedback timing, workload, temperature, peer learning, and more.
+            30 student agents. 14-week semester. Real outcomes.
         </p>
-        <div class="buttons">
-            <a href="https://classtwin-simulation.streamlit.app" class="btn btn-primary">Try Live Dashboard</a>
-            <a href="https://github.com/favzqn/classtwin-simulation" class="btn btn-secondary">View on GitHub</a>
+        <div class="hero-buttons">
+            <a href="https://classtwin-simulation.streamlit.app" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Launch Dashboard
+            </a>
+            <a href="https://github.com/favzqn/classtwin-simulation" class="btn btn-ghost">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                View Source
+            </a>
         </div>
     </div>
 </section>
 
-<section class="container">
-    <div class="features">
-        <div class="feature">
-            <span class="icon">🎓</span>
-            <h3>Agent-Based Simulation</h3>
-            <p>30+ student agents with individual knowledge, stress, motivation, SES, and grit — plus a lecturer agent with configurable teaching style.</p>
-        </div>
-        <div class="feature">
-            <span class="icon">📊</span>
-            <h3>19 Policy Scenarios</h3>
-            <p>Class size, feedback delay, workload, interventions, temperature, class mode (online/hybrid), SES diversity — all configurable.</p>
-        </div>
-        <div class="feature">
-            <span class="icon">🔄</span>
-            <h3>Fully Reproducible</h3>
-            <p>Fixed random seed = identical output. All configs serializable to JSON. 40 unit tests passing.</p>
-        </div>
-        <div class="feature">
-            <span class="icon">🖥️</span>
-            <h3>Interactive Dashboard</h3>
-            <p>Streamlit app with simulator, executive dashboard, and deep-dive analysis — no coding required.</p>
-        </div>
-        <div class="feature">
-            <span class="icon">📚</span>
-            <h3>Grounded in Literature</h3>
-            <p>Parameters from Hattie (2008), Shute (2008), Vygotsky (1978), Duckworth (2007), ASHRAE 55, and more.</p>
-        </div>
-        <div class="feature">
-            <span class="icon">🇮🇩</span>
-            <h3>Indonesian Context</h3>
-            <p>Built for Indonesian higher education — relevant to 9M+ students across 4,600+ universities.</p>
-        </div>
-    </div>
-</section>
-
-<section class="results container">
-    <h2>Key Policy Results</h2>
-    <table>
-        <thead>
-            <tr><th>Scenario</th><th>GPA (0–4)</th><th>Failure Rate</th><th>vs Baseline</th></tr>
-        </thead>
-        <tbody>
-            <tr class="highlight"><td>Best Practice Bundle</td><td>3.47</td><td>0%</td><td class="delta-pos">+0.46</td></tr>
-            <tr><td>Immediate Feedback</td><td>3.17</td><td>0%</td><td class="delta-pos">+0.16</td></tr>
-            <tr><td>Small Class (15 students)</td><td>3.17</td><td>0%</td><td class="delta-pos">+0.16</td></tr>
-            <tr><td>Baseline</td><td>3.01</td><td>0%</td><td>—</td></tr>
-            <tr><td>Heavy Workload</td><td>2.72</td><td>6.7%</td><td class="delta-neg">−0.30</td></tr>
-            <tr><td>Large Class (60 students)</td><td>2.32</td><td>10%</td><td class="delta-neg">−0.70</td></tr>
-            <tr><td>Slow Feedback (4-week delay)</td><td>2.22</td><td>30%</td><td class="delta-neg">−0.79</td></tr>
-            <tr class="highlight"><td>Worst Case</td><td>1.72</td><td>90%</td><td class="delta-neg">−1.30</td></tr>
-        </tbody>
-    </table>
-</section>
-
-<section class="stack container">
-    <h2>Built With</h2>
-    <div class="stack-grid">
-        <span class="tag">Python 3.11+</span>
-        <span class="tag">NumPy</span>
-        <span class="tag">Pydantic v2</span>
-        <span class="tag">pandas</span>
-        <span class="tag">Matplotlib</span>
-        <span class="tag">Streamlit</span>
-        <span class="tag">pytest</span>
-    </div>
-</section>
-
-<section class="arch container">
-    <h2>Architecture</h2>
-    <pre>
-SimulationConfig (Pydantic — JSON-serializable)
-        │
-        ▼
-  ClassroomModel (14-week simulation loop)
-        │
-   ┌────┼────┐
-   ▼    ▼    ▼
-Students Lecturer Study Groups
-(stress,  (feedback, (peer learning,
- knowledge,  load,    mixed formation)
- motivation) adaptivity)
-        │
-        ▼
-  Weekly Aggregates → End-of-semester GPA
-    </pre>
-</section>
-
-<section class="cta">
+<!-- STATS -->
+<section class="stats">
     <div class="container">
-        <h2>Ready to explore?</h2>
-        <p>Fork the repo, launch the dashboard, and start running what-if experiments on your virtual classroom.</p>
-        <div class="buttons">
-            <a href="https://classtwin-simulation.streamlit.app" class="btn btn-primary">Try Live Dashboard</a>
-            <a href="https://github.com/favzqn/classtwin-simulation/fork" class="btn btn-secondary">Fork on GitHub</a>
+        <div class="stats-grid">
+            <div class="stat">
+                <div class="stat-value blue">19</div>
+                <div class="stat-label">Scenarios</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value emerald">40</div>
+                <div class="stat-label">Tests Passing</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value amber">1.75</div>
+                <div class="stat-label">GPA Impact Range</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value violet">14</div>
+                <div class="stat-label">Weeks Simulated</div>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- FEATURES -->
+<section id="features">
+    <div class="container">
+        <div class="section-label reveal">Capabilities</div>
+        <h2 class="section-title reveal">Everything you need to<br>explore classroom policy</h2>
+        <p class="section-desc reveal">
+            A complete agent-based simulation toolkit — from parameter design to executive dashboards.
+        </p>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon blue">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Agent-Based Modeling</h3>
+                <p>Each of the 30 students has individual knowledge, stress, motivation, SES, grit, and fatigue. A lecturer agent manages feedback and adaptivity.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon emerald">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <h3>19 Policy Scenarios</h3>
+                <p>Class size, feedback delay, workload, tutoring, temperature, online/hybrid mode, SES diversity, and combined interventions — all pre-built.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon violet">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                </div>
+                <h3>Fully Reproducible</h3>
+                <p>Fixed random seed = identical output, every time. All configs serialize to JSON. Bit-for-bit reproducibility guaranteed.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon cyan">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <h3>Interactive Dashboard</h3>
+                <p>Streamlit app with simulator, executive dashboard, and deep-dive analysis. Adjust parameters and see results in real time.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon amber">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <h3>Literature-Grounded</h3>
+                <p>Parameters from Hattie, Shute, Vygotsky, Duckworth, ASHRAE 55, Means, and more. Every weight has a documented basis.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon red">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                </div>
+                <h3>Sensitivity Analysis</h3>
+                <p>One-at-a-time parameter sweeps reveal which policy levers have the biggest impact — feedback speed tops class size.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+    <div class="container">
+        <div class="section-label reveal">Experiment Results</div>
+        <h2 class="section-title reveal">1.75 GPA points between<br>best and worst policy</h2>
+        <p class="section-desc reveal">
+            A single policy decision — fast feedback vs slow feedback — has more impact than halving class size.
+        </p>
+        <div class="results-wrap reveal">
+            <div class="results-header">
+                <h3>Scenario Comparison</h3>
+                <span>Seed 42 &middot; 30 students &middot; 14 weeks</span>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Scenario</th><th>GPA</th><th>Failure</th><th>Stress</th><th>Delta</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight">
+                        <td class="scenario-name">Best Practice Bundle</td>
+                        <td>3.47</td><td>0%</td><td>0.19</td>
+                        <td><span class="badge badge-up">+0.46</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Immediate Feedback</td>
+                        <td>3.17</td><td>0%</td><td>0.21</td>
+                        <td><span class="badge badge-up">+0.16</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Small Class (15)</td>
+                        <td>3.17</td><td>0%</td><td>0.22</td>
+                        <td><span class="badge badge-up">+0.16</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Light Workload</td>
+                        <td>3.09</td><td>0%</td><td>0.20</td>
+                        <td><span class="badge badge-up">+0.08</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name" style="font-weight:700">Baseline</td>
+                        <td style="font-weight:700">3.01</td><td>0%</td><td>0.21</td>
+                        <td><span class="badge badge-base">—</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Hybrid Delivery</td>
+                        <td>2.81</td><td>0%</td><td>0.21</td>
+                        <td><span class="badge badge-down">−0.21</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Hot Classroom (32C)</td>
+                        <td>2.72</td><td>3.3%</td><td>0.23</td>
+                        <td><span class="badge badge-down">−0.30</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Online (Full)</td>
+                        <td>2.53</td><td>6.7%</td><td>0.21</td>
+                        <td><span class="badge badge-down">−0.48</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Large Class (60)</td>
+                        <td>2.32</td><td>10%</td><td>0.22</td>
+                        <td><span class="badge badge-down">−0.70</span></td>
+                    </tr>
+                    <tr>
+                        <td class="scenario-name">Slow Feedback (4 wk)</td>
+                        <td>2.22</td><td>30%</td><td>0.49</td>
+                        <td><span class="badge badge-down">−0.79</span></td>
+                    </tr>
+                    <tr class="highlight-bad">
+                        <td class="scenario-name">Worst Case</td>
+                        <td>1.72</td><td>90%</td><td>0.61</td>
+                        <td><span class="badge badge-down">−1.30</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+    <div class="container">
+        <div class="section-label reveal">How It Works</div>
+        <h2 class="section-title reveal">14-week semester,<br>updated weekly</h2>
+        <p class="section-desc reveal">
+            Each week, every student agent processes attendance, assignments, stress, knowledge, motivation, and fatigue — then peer learning and interventions run.
+        </p>
+        <div class="pipeline reveal">
+            <div class="pipeline-steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h4>Attendance Draw</h4>
+                        <p>Bernoulli probability modulated by stress, motivation, schedule, and room temperature.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h4>Assignment Outcomes</h4>
+                        <p>Each assignment: on-time, late, or missed — weighted by stress and motivation.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h4>Stress Update</h4>
+                        <p>Driven by workload, pending feedback, absence. Reduced by rest, SES buffer, and grit.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div>
+                        <h4>Knowledge Update</h4>
+                        <p>Topic-aware learning with prerequisite dependency, difficulty curve, fatigue penalty, and mid-semester slump.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <div>
+                        <h4>Peer Learning + Intervention</h4>
+                        <p>Heterogeneous study groups transfer knowledge via ZPD. Targeted tutoring boosts bottom quartile.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pipeline-code">
+<span class="comment"># Weekly update per student</span>
+<span class="kw">for</span> week <span class="kw">in</span> <span class="fn">range</span>(<span class="num">14</span>):
+    <span class="kw">for</span> student <span class="kw">in</span> active_students:
+        attended = <span class="fn">draw_attendance</span>(student, cfg)
+        sub, lat, mis = <span class="fn">draw_assignments</span>(student)
+
+        student.stress = <span class="fn">update_stress</span>(
+            stress, attended, feedback,
+            ses, grit, cfg
+        )
+
+        student.topic_knowledge = <span class="fn">update_knowledge</span>(
+            topic_idx, attended, teach_eff,
+            motivation, stress, capacity,
+            dependency, difficulty, slump
+        )
+
+        student.motivation = <span class="fn">update_motivation</span>(
+            motivation, feedback, cfg
+        )
+
+<span class="comment"># End of semester</span>
+gpa = <span class="num">0.7</span> * knowledge + <span class="num">0.3</span> * completion
+gpa_proxy = <span class="fn">clamp</span>(gpa * <span class="num">4.0</span>, <span class="num">0</span>, <span class="num">4</span>)
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section>
+    <div class="container">
+        <div class="section-label reveal">Architecture</div>
+        <h2 class="section-title reveal">Clean, modular, testable</h2>
+        <p class="section-desc reveal">
+            Pure-function update rules, Pydantic config, one simulation engine. No framework dependencies.
+        </p>
+        <div class="arch-visual reveal">
+            <div class="arch-flow">
+                <div class="arch-box config">
+                    SimulationConfig
+                    <small>Pydantic v2 &middot; JSON-serializable &middot; 50+ parameters</small>
+                </div>
+                <div class="arch-arrow"></div>
+                <div class="arch-box model">
+                    ClassroomModel
+                    <small>14-week simulation loop &middot; orchestration engine</small>
+                </div>
+                <div class="arch-arrow"></div>
+                <div class="arch-branch">
+                    <div class="arch-box agents">StudentAgent &times; N<small>stress &middot; knowledge &middot; motivation &middot; SES &middot; grit</small></div>
+                    <div class="arch-box agents">LecturerAgent<small>feedback &middot; load &middot; adaptivity</small></div>
+                    <div class="arch-box agents">Study Groups<small>peer learning &middot; ZPD transfer</small></div>
+                </div>
+                <div class="arch-arrow"></div>
+                <div class="arch-box output">
+                    Output
+                    <small>GPA &middot; attendance &middot; stress &middot; dropout &middot; equity breakdown</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="reveal">Start exploring</h2>
+        <p class="reveal">Fork the repo. Launch the dashboard. Run what-if experiments on your virtual classroom.</p>
+        <div class="hero-buttons reveal">
+            <a href="https://classtwin-simulation.streamlit.app" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Launch Dashboard
+            </a>
+            <a href="https://github.com/favzqn/classtwin-simulation/fork" class="btn btn-ghost">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><line x1="12" y1="12" x2="12" y2="15"/></svg>
+                Fork on GitHub
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
     <div class="container">
-        <p>
-            ClassTwin by <a href="https://github.com/favzqn">Fauzan</a> —
-            Universitas Widyatama, Bandung, 2026 ·
+        <div class="links">
+            <a href="https://github.com/favzqn/classtwin-simulation">GitHub</a>
             <a href="https://github.com/favzqn/classtwin-simulation/blob/main/LICENSE">MIT License</a>
-        </p>
+            <a href="https://github.com/favzqn">Fauzan</a>
+        </div>
+        <p>Universitas Widyatama, Bandung &middot; 2026</p>
     </div>
 </footer>
+
+<script>
+    // Intersection Observer for reveal animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
