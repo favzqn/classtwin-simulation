@@ -629,30 +629,41 @@
                 </div>
             </div>
             <div class="pipeline-code">
-<span class="comment"># Weekly update per student</span>
-<span class="kw">for</span> week <span class="kw">in</span> <span class="fn">range</span>(<span class="num">14</span>):
+<span class="comment"># Each of 14 weeks, every student is updated</span>
+<span class="kw">for</span> week <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">15</span>):
+
     <span class="kw">for</span> student <span class="kw">in</span> active_students:
-        attended = <span class="fn">draw_attendance</span>(student, cfg)
-        sub, lat, mis = <span class="fn">draw_assignments</span>(student)
 
-        student.stress = <span class="fn">update_stress</span>(
-            stress, attended, feedback,
-            ses, grit, cfg
-        )
+        <span class="comment"># 1. Does the student show up?</span>
+        attended = <span class="fn">draw_attendance</span>(student)
+        <span class="comment">#  ↑ probability modulated by stress, motivation,</span>
+        <span class="comment">#    schedule, and room temperature</span>
 
-        student.topic_knowledge = <span class="fn">update_knowledge</span>(
-            topic_idx, attended, teach_eff,
-            motivation, stress, capacity,
-            dependency, difficulty, slump
-        )
+        <span class="comment"># 2. Assignments: on-time / late / missed</span>
+        submitted, late, missed = <span class="fn">draw_assignments</span>(student)
 
-        student.motivation = <span class="fn">update_motivation</span>(
-            motivation, feedback, cfg
-        )
+        <span class="comment"># 3. Stress accumulates from workload + absences</span>
+        <span class="comment">#    and drops with rest + feedback + SES buffer</span>
+        student.stress = <span class="fn">update_stress</span>(student, attended,
+            received_feedback=<span class="fn">week</span> &gt;= feedback_delay)
 
-<span class="comment"># End of semester</span>
-gpa = <span class="num">0.7</span> * knowledge + <span class="num">0.3</span> * completion
-gpa_proxy = <span class="fn">clamp</span>(gpa * <span class="num">4.0</span>, <span class="num">0</span>, <span class="num">4</span>)
+        <span class="comment"># 4. Knowledge: topic-aware learning</span>
+        <span class="comment">#    Δk = rate × attended × effectiveness × capacity</span>
+        <span class="comment">#       × motivation × (1 − stress) × difficulty × slump</span>
+        student.knowledge = <span class="fn">update_knowledge</span>(student, topic)
+
+        <span class="comment"># 5. Motivation, fatigue, satisfaction</span>
+        student.motivation = <span class="fn">update_motivation</span>(student, feedback)
+        student.fatigue = <span class="fn">update_fatigue</span>(student, attended)
+
+        <span class="comment"># 6. Peer learning: knowledge transfers</span>
+        <span class="comment">#    from strongest group member via ZPD</span>
+        <span class="fn">apply_peer_learning</span>(student, study_group)
+
+<span class="comment"># ── End of semester ──────────────────────────</span>
+<span class="comment"># GPA = 0.7 × knowledge + 0.3 × task completion</span>
+<span class="comment">#     scaled to 0–4, with late penalty from strictness</span>
+gpa = <span class="fn">compute_gpa</span>(student)  <span class="comment"># clamped [0, 4]</span>
             </div>
         </div>
     </div>
