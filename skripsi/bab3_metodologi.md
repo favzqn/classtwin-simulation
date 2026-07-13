@@ -520,13 +520,73 @@ Bobot 70/30 antara pengetahuan dan penyelesaian tugas merepresentasikan asumsi u
 
 Parameter `strictness` dosen memengaruhi sejauh mana pengumpulan terlambat diperhitungkan: `strictness = 1.0` berarti tidak ada kredit untuk keterlambatan, `strictness = 0.0` berarti terlambat dan tepat waktu diperlakukan sama.
 
-**Tabel 3.4: Ringkasan Parameter Bobot DynamicsWeights**
+**Tabel 3.4a: Parameter Inisialisasi StudentDefaults**
+
+| Parameter | Nilai Default | Rentang | Dasar Literatur |
+|---|---|---|---|
+| `learning_capacity_min` | 0.60 | [0.0, 2.0] | Heterogenitas kemampuan belajar merata (Tabel 3.2) |
+| `learning_capacity_max` | 1.40 | [0.0, 2.0] | Heterogenitas kemampuan belajar merata (Tabel 3.2) |
+| `motivation_mean` | 0.65 | [0.0, 1.0] | Pintrich (2003): mayoritas motivasi cukup tinggi di awal semester |
+| `motivation_std` | 0.15 | [0.0, 0.5] | Distribusi empiris skor motivasi |
+| `stress_mean` | 0.25 | [0.0, 1.0] | Stres rendah di minggu pertama sebelum akumulasi beban |
+| `stress_std` | 0.10 | [0.0, 0.5] | Variabilitas stres awal |
+| `knowledge_mean` | 0.20 | [0.0, 1.0] | Pengetahuan awal mahasiswa baru |
+| `knowledge_std` | 0.10 | [0.0, 0.5] | Variabilitas pengetahuan awal |
+| `base_attendance_prob` | 0.85 | [0.0, 1.0] | Credé & Kuncel (2008): probabilitas kehadiran dasar |
+| `base_late_work_prob` | 0.15 | [0.0, 1.0] | Heuristik; proporsi pengumpulan terlambat |
+| `ses_score_mean` | 0.50 | [0.0, 1.0] | Keberagaman SES sedang (Sirin, 2005) |
+| `ses_score_std` | 0.20 | [0.0, 0.5] | Sirin (2005): distribusi SES dalam kelas |
+| `grit_mean` | 0.50 | [0.0, 1.0] | Duckworth et al. (2007): distribusi skor Grit Scale |
+| `grit_std` | 0.15 | [0.0, 0.5] | Duckworth et al. (2007) |
+
+**Tabel 3.4b: Parameter LecturerDefaults**
+
+| Parameter | Nilai Default | Rentang | Dasar Literatur |
+|---|---|---|---|
+| `teaching_effectiveness` | 1.0 | [0.6, 1.4] | Hattie (2008): variasi efektivitas pengajaran |
+| `feedback_delay_weeks` | 1 | {0, 1, 2, 3, 4} | Shute (2008): dampak keterlambatan umpan balik |
+| `assignment_load` | 2 | {0, 1, 2, 3} | Standar praktik perkuliahan |
+| `strictness` | 0.5 | [0.0, 1.0] | Bobot penalti pengumpulan terlambat |
+| `adaptivity` | 0.0 | [0.0, 1.0] | Derajat adaptasi dosen terhadap performa kelas |
+| `adaptation_threshold` | 0.40 | [0.0, 1.0] | Ambang rata-rata pengetahuan kelas |
+| `adaptation_boost` | 0.15 | [0.0, 0.5] | Peningkatan maksimal efektivitas per minggu |
+
+**Tabel 3.4c: Parameter CurriculumConfig**
+
+| Parameter | Nilai Default | Rentang | Dasar Literatur |
+|---|---|---|---|
+| `n_topics` | 5 | [1, 10] | Struktur kurikulum standar satu semester |
+| `exam_weeks` | [7, 14] | — | UTS minggu ke-7, UAS minggu ke-14 |
+| `topic_dependency_strength` | 0.40 | [0.0, 1.0] | Vygotsky (1978): ZPD, prasyarat materi |
+| `difficulty_curve` | "linear" | flat/linear/steep_end | Bloom's taxonomy: topik akhir lebih sulit |
+| `exam_stress_delta` | 0.25 | [0.0, 1.0] | Zeidner (1998): efek ujian pada stres |
+| `knowledge_consolidation` | 0.05 | [0.0, 0.5] | Konsolidasi pengetahuan saat ujian |
+
+**Tabel 3.4d: Parameter SocialConfig**
+
+| Parameter | Nilai Default | Rentang | Dasar Literatur |
+|---|---|---|---|
+| `enable_peer_learning` | True | bool | Vygotsky (1978): pembelajaran kolaboratif |
+| `study_group_size` | 4 | [2, 10] | Ukuran kelompok optimal untuk diskusi |
+| `peer_learning_rate` | 0.025 | [0.0, 0.5] | Vygotsky (1978): ZPD, laju transfer antar-teman |
+| `formation` | "mixed" | random/mixed/homogeneous | Heterogenitas memaksimalkan transfer pengetahuan |
+
+**Tabel 3.4e: Parameter EnvironmentConfig**
+
+| Parameter | Nilai Default | Rentang | Dasar Literatur |
+|---|---|---|---|
+| `class_schedule` | "afternoon" | morning/afternoon/evening | Efek jadwal terhadap kehadiran |
+| `external_pressure` | 0.3 | [0.0, 1.0] | Tekanan akademik dari luar kelas |
+| `mid_semester_slump_strength` | 0.12 | [0.0, 1.0] | Dietz-Uhler & Lanter (2009): penurunan motivasi pertengahan semester |
+| `room_temp_celsius` | 22.0 | [10.0, 40.0] | ASHRAE 55: zona nyaman 20–24°C |
+| `class_mode` | "in_person" | in_person/hybrid/online | Means et al. (2010): mode perkuliahan |
+
+**Tabel 3.4f: Parameter Bobot DynamicsWeights**
 
 | Parameter | Nilai Default | Satuan | Dasar Literatur |
 |---|---|---|---|
 | `base_learning_rate` | 0.42 | — | Kalibrasi iteratif; target IPK baseline ≈ 3.0 |
 | `knowledge_decay` | 0.003 | per minggu | Ebbinghaus (1885): forgetting curve |
-| `topic_dependency_strength` | 0.40 | — | Vygotsky (1978): ZPD, prasyarat materi |
 | `w_stress_load` | 0.04 | per tugas | Calibrated; Shute (2008): beban kerja & stres |
 | `w_stress_pending_feedback` | 0.03 | per minggu | Shute (2008): ketidakpastian umpan balik |
 | `w_stress_absence` | 0.05 | per kejadian | Credé & Kuncel (2008): absensi & kecemasan |
@@ -543,7 +603,6 @@ Parameter `strictness` dosen memengaruhi sejauh mana pengumpulan terlambat diper
 | `w_fatigue_gain` | 0.04 | per minggu hadir | Kahneman (1973): cognitive load theory |
 | `w_fatigue_rest` | 0.06 | per minggu | Kahneman (1973) |
 | `w_fatigue_learning_penalty` | 0.20 | per unit fatigue | Kahneman (1973): kelelahan & kapasitas belajar |
-| `peer_learning_rate` | 0.025 | per unit gap | Vygotsky (1978): ZPD |
 | `dropout_stress_threshold` | 0.92 | — | Tinto (1987): heuristik model dropout |
 | `dropout_consecutive_weeks` | 3 | minggu | Tinto (1987) |
 | `dropout_knowledge_threshold` | 0.25 | — | Heuristik kalibrasi |

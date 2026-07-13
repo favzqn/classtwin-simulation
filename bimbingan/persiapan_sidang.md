@@ -73,8 +73,8 @@
 
 ## Yang Perlu Diperkuat di Skripsi (sebelum sidang)
 
-- [ ] Bab 3: tambah tabel parameter lengkap + kolom "Dasar Literatur" untuk tiap parameter
-- [ ] Bab 4: tambah paragraf eksplisit "mengapa temuan konsisten literatur tetap bernilai"
-- [ ] Bab 4 RQ4: tambah penjelasan mekanisme peer learning vs SES disadvantage
-- [ ] Bab 1: perkuat framing "digital model dalam spektrum digital twin"
-- [ ] Bab 5: perkuat framing kontribusi = artefak open-source, bukan temuan baru
+- [x] Bab 3: tambah tabel parameter lengkap + kolom "Dasar Literatur" untuk tiap parameter
+- [x] Bab 4: tambah paragraf eksplisit "mengapa temuan konsisten literatur tetap bernilai"
+- [x] Bab 4 RQ4: tambah penjelasan mekanisme peer learning vs SES disadvantage
+- [x] Bab 1: perkuat framing "digital model dalam spektrum digital twin"
+- [x] Bab 5: perkuat framing kontribusi = artefak open-source, bukan temuan baru
