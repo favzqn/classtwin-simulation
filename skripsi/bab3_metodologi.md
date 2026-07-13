@@ -36,8 +36,8 @@ Tabel 3.1 merangkum tahapan dan jadwal pelaksanaan penelitian.
 |---|---|---|
 | 1 | Studi literatur & perumusan masalah | Oktober–November 2025 |
 | 2 | Perancangan arsitektur model & konfigurasi agen | November–Desember 2025 |
-| 3 | Implementasi model (Mesa + Pydantic) | Desember 2025–Januari 2026 |
-| 4 | Desain & eksekusi skenario eksperimen (15 skenario) | Februari–Maret 2026 |
+| 3 | Implementasi model (Python + Pydantic) | Desember 2025–Januari 2026 |
+| 4 | Desain & eksekusi skenario eksperimen (16 skenario) | Februari–Maret 2026 |
 | 5 | Analisis sensitivitas OAT & uji validasi | Maret–April 2026 |
 | 6 | Pengembangan dashboard Streamlit | April 2026 |
 | 7 | Penulisan laporan & revisi | April–Juni 2026 |
@@ -68,8 +68,8 @@ Gambar 3.1 menunjukkan diagram alur keseluruhan proses penelitian, dari identifi
 Tahapan penelitian terdiri dari empat fase utama:
 
 1. **Fase Perancangan**: Studi literatur psikologi pendidikan → identifikasi variabel kunci → perancangan arsitektur agen dan aturan pembaruan mingguan.
-2. **Fase Implementasi**: Pengkodean model menggunakan Mesa dan Python → konfigurasi 15 skenario eksperimen → pengembangan dashboard Streamlit.
-3. **Fase Eksperimen**: Eksekusi 15 skenario × 20 replikasi → analisis sensitivitas OAT → uji validasi (face validity, determinisme, clamp test, konvergensi).
+2. **Fase Implementasi**: Pengkodean model menggunakan Python → konfigurasi 16 skenario eksperimen → pengembangan dashboard Streamlit.
+3. **Fase Eksperimen**: Eksekusi 16 skenario × 20 replikasi → analisis sensitivitas OAT → uji validasi (face validity, determinisme, clamp test, konvergensi).
 4. **Fase Analisis**: Perbandingan metrik antar-skenario → penarikan kesimpulan terhadap 5 rumusan masalah → dokumentasi keterbatasan dan saran penelitian lanjutan.
 
 ---
@@ -636,7 +636,7 @@ Untuk mengidentifikasi parameter kebijakan mana yang paling berpengaruh, dilakuk
 | Pembelajaran teman sebaya | Tidak aktif | Aktif | — | boolean |
 | Mode kelas (`class_mode`) | online | in_person | — | kategori |
 
-Setiap konfigurasi dijalankan sebanyak `n_runs = 3` *seed* untuk mengurangi *noise* stokastik, dengan metrik yang dilaporkan adalah IPK rata-rata kelas, tingkat kegagalan (%), dan standar deviasi IPK. Metrik sensitivitas yang digunakan adalah:
+Setiap konfigurasi dijalankan sebanyak `n_runs = 20` *seed* untuk mengurangi *noise* stokastik, dengan metrik yang dilaporkan adalah IPK rata-rata kelas, tingkat kegagalan (%), dan standar deviasi IPK. Metrik sensitivitas yang digunakan adalah:
 
 ```
 sensitivity(param) = |metric(high) − metric(low)| / metric(baseline)

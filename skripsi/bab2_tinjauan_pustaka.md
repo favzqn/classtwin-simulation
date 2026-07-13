@@ -31,7 +31,7 @@ Simulasi berbasis agen (*Agent-Based Simulation*, ABS) atau pemodelan berbasis a
 
 Menurut Macal dan North (2010), sebuah model ABM yang baik harus mendefinisikan setidaknya tiga komponen: (1) agen dengan atribut dan aturan perilaku yang jelas, (2) lingkungan tempat agen beroperasi, dan (3) mekanisme interaksi antar-agen. Keunggulan utama ABM dibanding model persamaan diferensial adalah kemampuannya menangkap heterogenitas individu: mahasiswa A dan mahasiswa B bisa memiliki kapasitas belajar, tingkat stres, dan latar belakang sosial ekonomi yang berbeda, dan perbedaan-perbedaan itu memengaruhi dinamika keseluruhan kelas secara langsung (Gilbert, 2008).
 
-Dalam penelitian ini, ABM diimplementasikan menggunakan kerangka kerja Mesa (Kazil et al., 2020) berbasis Python, dengan dua jenis agen: `StudentAgent` yang merepresentasikan mahasiswa dengan atribut yang dapat berubah setiap minggu, dan `LecturerAgent` yang merepresentasikan dosen dengan parameter pengajaran yang tetap selama satu semester.
+Dalam penelitian ini, ABM diimplementasikan menggunakan Python, dengan dua jenis agen: `StudentAgent` yang merepresentasikan mahasiswa dengan atribut yang dapat berubah setiap minggu, dan `LecturerAgent` yang merepresentasikan dosen dengan parameter pengajaran yang tetap selama satu semester.
 
 #### 2.2.2 Konsep *Digital Twin*
 

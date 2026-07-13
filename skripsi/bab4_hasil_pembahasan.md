@@ -121,13 +121,37 @@ Temuan tambahan dari Gambar 4.6: peningkatan pengetahuan kuartil terbawah mulai 
 ![Gambar 4.6](../../data/thesis_report/figures/dropout_timeline.png)
 *Gambar 4.6: Profil putus studi dan perkembangan kelompok intervensi selama 14 minggu simulasi*
 
-### 4.7 Eksperimen Lingkungan Fisik dan Mode Perkuliahan (RQ5)
+Untuk menguji efektivitas intervensi pada kondisi yang lebih menantang, skenario tambahan dijalankan yang menggabungkan program tutoring dengan kondisi skenario terburuk (60 mahasiswa, beban tugas tinggi, umpan balik lambat). Hasilnya menunjukkan bahwa tutoring dalam kondisi stres tinggi meningkatkan IPK dari 1,72 menjadi 1,77 (+0,05) dan menurunkan tingkat kegagalan dari 90% menjadi 85%. Meskipun peningkatan absolutnya kecil, pengurangan 5 persen poin tingkat kegagalan pada populasi yang sangat tertekan menunjukkan bahwa intervensi tetap memberikan manfaat — namun efeknya jauh lebih terbatas dibandingkan pada kondisi baseline (+0,07 IPK pada skenario normal). Temuan ini mengimplikasikan bahwa intervensi tutoring paling efektif ketika dilakukan bersamaan dengan perbaikan kondisi lingkungan belajar, bukan sebagai solusi tunggal.
 
-#### 4.7.1 Suhu Ruangan
+### 4.7 Eksperimen Keberagaman Status Sosial Ekonomi (RQ4)
+
+Dua kondisi dibandingkan: baseline (std SES = 0,20) dan keberagaman SES tinggi (std = 0,40).
+
+**Tabel 4.6: Kesenjangan IPK Berdasarkan Kuartil SES**
+
+| Skenario | IPK Q1 (SES Rendah) | IPK Q4 (SES Tinggi) | Kesenjangan (Q4 − Q1) |
+|---|---|---|---|
+| Keberagaman SES Sedang / Baseline (std=0,20) | 2,96 | 3,17 | 0,21 |
+| Keberagaman SES Tinggi (std=0,40) | 2,89 | 2,95 | 0,06 |
+
+Hasil simulasi menunjukkan temuan yang menarik: kesenjangan IPK antara Q1 dan Q4 justru **lebih kecil** pada skenario keberagaman SES tinggi (0,06) dibandingkan baseline (0,21). Namun, IPK absolut mahasiswa Q1 pada skenario ses_diverse (2,89) lebih rendah dari baseline (2,96), mengonfirmasi bahwa mahasiswa SES rendah tetap dirugikan secara absolut.
+
+Temuan ini sebagian konsisten dengan Sirin (2005) dalam hal dampak negatif SES rendah terhadap IPK absolut. Namun, hipotesis bahwa keberagaman lebih tinggi memperlebar kesenjangan antar-kuartil tidak terkonfirmasi dalam simulasi ini. Penjelasan yang mungkin adalah bahwa pada skenario ses_diverse, interaksi kelompok belajar yang lebih heterogen justru memberikan efek negatif merata ke semua kuartil, sehingga kesenjangan relatif antar-kuartil mengecil.
+
+Mekanisme di balik temuan ini memerlukan penjelasan tambahan. Dalam model ini, kelompok belajar dibentuk berdasarkan pengetahuan awal (*mixed strategy*), bukan berdasarkan SES. Pada skenario keberagaman SES tinggi, variansi `ses_score` lebih lebar sehingga mahasiswa SES rendah mengalami stres kronis yang lebih tinggi, sementara mahasiswa SES tinggi mendapat manfaat *buffer* yang lebih besar. Namun, efek netto terhadap kesenjangan antar-kuartil bergantung pada sejauh mana variasi stres ini diterjemahkan ke perbedaan IPK akhir — yang dalam model ini dimoderasi oleh komponen pembelajaran (*knowledge*) yang lebih dominan (bobot 70%) dibandingkan penyelesaian tugas.
+
+Temuan ini menyiratkan bahwa kebijakan pemerataan tetap relevan, terutama untuk meningkatkan IPK absolut mahasiswa SES rendah.
+
+![Gambar 4.7](../../data/thesis_report/figures/ses_equity.png)
+*Gambar 4.7: Analisis kesenjangan IPK berdasarkan kuartil SES pada skenario baseline dan ses_diverse*
+
+### 4.8 Eksperimen Lingkungan Fisik dan Mode Perkuliahan (RQ5)
+
+#### 4.8.1 Suhu Ruangan
 
 Tiga kondisi suhu dibandingkan: kelas panas (32°C), baseline (22°C), dan kelas dingin (16°C).
 
-**Tabel 4.6: Perbandingan Suhu Ruangan**
+**Tabel 4.7: Perbandingan Suhu Ruangan**
 
 | Skenario | IPK Rata-rata | Tingkat Kegagalan | Tingkat Kehadiran | Stres Akhir |
 |---|---|---|---|---|
@@ -137,16 +161,16 @@ Tiga kondisi suhu dibandingkan: kelas panas (32°C), baseline (22°C), dan kelas
 
 Kedua kondisi suhu ekstrem menunjukkan penurunan IPK dibandingkan baseline. Kelas panas (32°C) menurunkan IPK sebesar 0,30 poin dengan dampak kehadiran yang signifikan (turun dari 92,6% menjadi 79,5%). Kelas dingin (16°C) menunjukkan dampak yang lebih kecil (IPK turun 0,15 poin). Pola ini konsisten dengan temuan Wargocki dan Wyon (2007).
 
-Dalam konteks Indonesia, temuan ini memiliki relevansi praktis: banyak ruang kelas menghadapi masalah suhu tinggi akibat iklim tropis. Simulasi ini menunjukkan bahwa penyediaan sistem pendingin udara yang memadai berpotensi meningkatkan capaian akademik mahasiswa secara nyata. Gambar 4.7 menampilkan perbandingan tingkat kehadiran rata-rata pada kondisi suhu berbeda.
+Dalam konteks Indonesia, temuan ini memiliki relevansi praktis: banyak ruang kelas menghadapi masalah suhu tinggi akibat iklim tropis. Simulasi ini menunjukkan bahwa penyediaan sistem pendingin udara yang memadai berpotensi meningkatkan capaian akademik mahasiswa secara nyata. Gambar 4.8 menampilkan perbandingan tingkat kehadiran rata-rata pada kondisi suhu berbeda.
 
-![Gambar 4.7](../../data/thesis_report/figures/attendance_over_time.png)
-*Gambar 4.7: Evolusi tingkat kehadiran rata-rata kelas selama 14 minggu simulasi*
+![Gambar 4.8](../../data/thesis_report/figures/attendance_over_time.png)
+*Gambar 4.8: Evolusi tingkat kehadiran rata-rata kelas selama 14 minggu simulasi*
 
-#### 4.7.2 Mode Perkuliahan
+#### 4.8.2 Mode Perkuliahan
 
 Tiga mode perkuliahan dibandingkan: tatap muka (baseline), hibrida, dan daring penuh.
 
-**Tabel 4.7: Perbandingan Mode Perkuliahan**
+**Tabel 4.8: Perbandingan Mode Perkuliahan**
 
 | Skenario | IPK Rata-rata | Tingkat Kegagalan | Tingkat Kehadiran | Stres Akhir |
 |---|---|---|---|---|
@@ -158,42 +182,22 @@ Perkuliahan daring penuh menunjukkan IPK rata-rata yang lebih rendah (2,53 vs 3,
 
 Temuan ini **mendukung RQ5** dan konsisten dengan meta-analisis Means et al. (2010). Penting dicatat bahwa dalam model ini mode daring mengurangi efektivitas pengajaran dan laju pembelajaran teman sebaya; asumsi ini mungkin tidak berlaku jika desain pembelajaran daring dioptimalkan.
 
-### 4.8 Eksperimen Keberagaman Status Sosial Ekonomi (RQ4)
-
-Dua kondisi dibandingkan: baseline (std SES = 0,20) dan keberagaman SES tinggi (std = 0,40).
-
-**Tabel 4.8: Kesenjangan IPK Berdasarkan Kuartil SES**
-
-| Skenario | IPK Q1 (SES Rendah) | IPK Q4 (SES Tinggi) | Kesenjangan (Q4 − Q1) |
-|---|---|---|---|
-| Keberagaman SES Sedang / Baseline (std=0,20) | 2,96 | 3,17 | 0,21 |
-| Keberagaman SES Tinggi (std=0,40) | 2,89 | 2,95 | 0,06 |
-
-Hasil simulasi menunjukkan temuan yang menarik: kesenjangan IPK antara Q1 dan Q4 justru **lebih kecil** pada skenario keberagaman SES tinggi (0,06) dibandingkan baseline (0,21). Namun, IPK absolut mahasiswa Q1 pada skenario ses_diverse (2,89) lebih rendah dari baseline (2,96), mengonfirmasi bahwa mahasiswa SES rendah tetap dirugikan secara absolut.
-
-Temuan ini sebagian konsisten dengan Sirin (2005) dalam hal dampak negatif SES rendah terhadap IPK absolut. Namun, hipotesis bahwa keberagaman lebih tinggi memperlebar kesenjangan antar-kuartil tidak terkonfirmasi dalam simulasi ini. Penjelasan yang mungkin adalah bahwa pada skenario ses_diverse, interaksi kelompok belajar yang lebih heterogen justru memberikan efek negatif merata ke semua kuartil, sehingga kesenjangan relatif antar-kuartil mengecil.
-
-Temuan ini menyiratkan bahwa kebijakan pemerataan tetap relevan, terutama untuk meningkatkan IPK absolut mahasiswa SES rendah.
-
-![Gambar 4.8](../../data/thesis_report/figures/ses_equity.png)
-*Gambar 4.8: Analisis kesenjangan IPK berdasarkan kuartil SES pada skenario baseline dan ses_diverse*
-
 ### 4.9 Hasil Analisis Sensitivitas OAT
 
 Gambar 4.9 menampilkan *tornado chart* dari analisis sensitivitas OAT terhadap metrik IPK rata-rata. Hasil analisis menunjukkan urutan dampak parameter sebagai berikut (dari terbesar ke terkecil):
 
-1. **Keterlambatan umpan balik:** pengurangan dari 4 minggu ke 0 minggu meningkatkan IPK sebesar **0,95 poin**
-2. **Ukuran kelas:** pengurangan dari 60 ke 15 mahasiswa meningkatkan IPK sebesar **0,85 poin**
-3. **Efektivitas pengajaran:** peningkatan dari 0,7 ke 1,3 meningkatkan IPK sebesar **0,70 poin**
-4. **Mode perkuliahan:** perubahan dari daring ke tatap muka meningkatkan IPK sebesar **0,48 poin**
-5. **Beban tugas:** pengurangan dari 3 ke 1 tugas/minggu meningkatkan IPK sebesar **0,37 poin**
-6. **Suhu ruangan:** perubahan dari 32°C ke 22°C meningkatkan IPK sebesar **0,30 poin**
-7. **Pembelajaran teman sebaya:** pengaktifan meningkatkan IPK sebesar **0,18 poin**
+1. **Keterlambatan umpan balik:** pengurangan dari 4 minggu ke 0 minggu meningkatkan IPK sebesar **0,75 poin**
+2. **Ukuran kelas:** pengurangan dari 60 ke 15 mahasiswa meningkatkan IPK sebesar **0,68 poin**
+3. **Mode perkuliahan:** perubahan dari daring ke tatap muka meningkatkan IPK sebesar **0,39 poin**
+4. **Efektivitas pengajaran:** peningkatan dari 0,7 ke 1,3 meningkatkan IPK sebesar **0,38 poin**
+5. **Suhu ruangan:** perubahan dari 32°C ke 22°C meningkatkan IPK sebesar **0,32 poin**
+6. **Beban tugas:** pengurangan dari 3 ke 1 tugas/minggu meningkatkan IPK sebesar **0,25 poin**
+7. **Pembelajaran teman sebaya:** pengaktifan meningkatkan IPK sebesar **0,17 poin**
 
 ![Gambar 4.9](../../data/thesis_report/figures/at_risk_comparison.png)
 *Gambar 4.9: Analisis deteksi mahasiswa berisiko dan perbandingan antar-skenario*
 
-Temuan kunci dari analisis sensitivitas adalah bahwa **keterlambatan umpan balik mendominasi**, diikuti oleh ukuran kelas dan efektivitas pengajaran yang memiliki dampak serupa. Beban tugas, yang sering menjadi fokus keluhan mahasiswa, berada di peringkat kelima. Ini mengonfirmasi bahwa kualitas umpan balik, ukuran kelas, dan kualitas pengajaran adalah tiga faktor kebijakan yang paling strategis untuk ditingkatkan.
+Temuan kunci dari analisis sensitivitas adalah bahwa **keterlambatan umpan balik mendominasi**, diikuti oleh ukuran kelas. Mode perkuliahan dan efektivitas pengajaran memiliki dampak menengah yang serupa. Suhu ruangan, beban tugas, dan pembelajaran teman sebaya berada di peringkat bawah. Ini mengonfirmasi bahwa kualitas umpan balik dan ukuran kelas adalah dua faktor kebijakan yang paling strategis untuk ditingkatkan.
 
 Implikasi praktis: program studi sebaiknya memprioritaskan kebijakan pengembalian nilai yang cepat sebelum mempertimbangkan restrukturisasi ukuran kelas, karena umpan balik memberikan dampak terbesar dengan biaya implementasi yang relatif rendah.
 
@@ -220,8 +224,8 @@ Semua temuan direktional **terkonfirmasi** di seluruh 20 replikasi. Interval kep
 
 Gambar 4.10 menampilkan hasil uji konvergensi: IPK rata-rata ± CI95 sebagai fungsi dari jumlah mahasiswa N (10, 15, 20, 30, 45, 60, 90, 120), masing-masing dihitung dari 10 *seed*.
 
-![Gambar 4.10](../../data/thesis_report/figures/executive_dashboard.png)
-*Gambar 4.10: Dashboard eksekutif simulasi menampilkan ringkasan metrik kelas*
+![Gambar 4.10](../../data/thesis_report/figures/convergence_test.png)
+*Gambar 4.10: Uji konvergensi — IPK rata-rata ± CI95% sebagai fungsi dari jumlah mahasiswa N (10, 15, 20, 30, 45, 60, 90, 120)*
 
 CI semakin menyempit seiring meningkatnya N, mengonfirmasi bahwa simulasi menghasilkan estimasi yang semakin stabil. Pada N = 30 (baseline), CI sudah berada pada rentang ±0,04, cukup sempit untuk mendukung kesimpulan direktional. Nilai ini dipilih sebagai keseimbangan antara kestabilan statistik dan waktu komputasi yang wajar.
 
@@ -247,7 +251,8 @@ Tabel 4.10 merangkum hasil semua skenario yang dijalankan, berurutan dari IPK te
 | 12 | Daring Penuh | 2,53 | −0,48 | 6,7% | 0% |
 | 13 | Kelas Besar (60) | 2,32 | −0,70 | 10% | 0% |
 | 14 | Umpan Balik Lambat | 2,22 | −0,79 | 30% | 0% |
-| 15 | Skenario Terburuk | 1,72 | −1,30 | 90% | 10% |
+| 15 | Tutoring + Skenario Terburuk | 1,77 | −1,25 | 85% | 5% |
+| 16 | Skenario Terburuk | 1,72 | −1,30 | 90% | 10% |
 
 Paket Kebijakan Terbaik (*Best-Practice Bundle*), yang menggabungkan umpan balik segera, beban tugas ringan, dan program tutoring, menghasilkan IPK tertinggi (3,47) di antara semua skenario. Selisih antara skenario terbaik dan terburuk mencapai 1,75 poin IPK, menunjukkan bahwa pilihan kebijakan memiliki rentang dampak yang sangat besar terhadap capaian akademik mahasiswa.
 
@@ -255,11 +260,11 @@ Paket Kebijakan Terbaik (*Best-Practice Bundle*), yang menggabungkan umpan balik
 
 Berdasarkan keseluruhan hasil eksperimen di atas, terdapat beberapa implikasi kebijakan yang dapat dipertimbangkan oleh institusi pendidikan tinggi.
 
-**Prioritas utama: percepatan pengembalian umpan balik.** Analisis sensitivitas OAT menunjukkan bahwa keterlambatan umpan balik adalah faktor dengan dampak terbesar terhadap IPK (2,37 SD). Berbeda dari pengurangan ukuran kelas yang memerlukan penambahan tenaga pengajar, percepatan pengembalian tugas sering kali dapat diwujudkan melalui optimasi alur kerja penilaian atau pemanfaatan platform *Learning Management System* (LMS) dengan fitur umpan balik otomatis. Dengan kata lain, ini adalah intervensi berdampak besar dengan biaya implementasi yang relatif rendah.
+**Prioritas utama: percepatan pengembalian umpan balik.** Analisis sensitivitas OAT menunjukkan bahwa keterlambatan umpan balik adalah faktor dengan dampak terbesar terhadap IPK (delta 0,75 poin). Berbeda dari pengurangan ukuran kelas yang memerlukan penambahan tenaga pengajar, percepatan pengembalian tugas sering kali dapat diwujudkan melalui optimasi alur kerja penilaian atau pemanfaatan platform *Learning Management System* (LMS) dengan fitur umpan balik otomatis. Dengan kata lain, ini adalah intervensi berdampak besar dengan biaya implementasi yang relatif rendah.
 
 **Manajemen beban tugas secara hati-hati.** Hasil simulasi menunjukkan bahwa kualitas dan ketepatan waktu umpan balik lebih menentukan capaian akademik dibandingkan kuantitas tugas. Penambahan tugas tanpa disertai kapasitas umpan balik yang memadai justru menurunkan IPK rata-rata. Program studi dapat mempertimbangkan pengurangan jumlah tugas jika sumber daya penilaian terbatas, sambil memastikan setiap tugas mendapatkan umpan balik yang cepat dan bermakna.
 
-**Intervensi bertarget lebih efisien daripada perubahan kebijakan menyeluruh.** Program tutoring yang ditargetkan kepada 25% mahasiswa terendah (Seksi 4.6) menghasilkan peningkatan IPK kelompok terbawah sebesar +0,10 poin dengan biaya sumber daya yang jauh lebih kecil dibandingkan pengurangan ukuran kelas secara keseluruhan (+0,85 poin potensi dampak tetapi memerlukan penggandaan kapasitas ruang kelas). Ini mengindikasikan bahwa identifikasi dini mahasiswa berisiko dan intervensi tepat sasaran dapat menjadi strategi yang efisien secara sumber daya.
+**Intervensi bertarget lebih efisien daripada perubahan kebijakan menyeluruh.** Program tutoring yang ditargetkan kepada 25% mahasiswa terendah (Seksi 4.6) menghasilkan peningkatan IPK kelompok terbawah sebesar +0,10 poin dengan biaya sumber daya yang jauh lebih kecil dibandingkan pengurangan ukuran kelas secara keseluruhan (+0,68 poin potensi dampak tetapi memerlukan penggandaan kapasitas ruang kelas). Ini mengindikasikan bahwa identifikasi dini mahasiswa berisiko dan intervensi tepat sasaran dapat menjadi strategi yang efisien secara sumber daya.
 
 **Kondisi fisik ruang kelas tidak dapat diabaikan.** Dalam konteks Indonesia yang beriklim tropis, suhu ruangan yang tinggi (32°C, tanpa AC) menurunkan kehadiran secara signifikan (−13,1 persen poin) dan IPK sebesar 0,75 SD. Investasi pada sistem pendingin udara yang memadai berpotensi memberikan *return on investment* yang terukur dalam bentuk peningkatan capaian akademik.
 
@@ -278,5 +283,7 @@ Hasil penelitian ini perlu diinterpretasikan dengan memperhatikan beberapa keter
 **Keempat, validitas eksternal belum diuji.** Sebagaimana dijelaskan pada Bagian 3.10, validasi yang dilakukan dalam penelitian ini terbatas pada validitas wajah (*face validity*) dan konsistensi internal. Kemampuan model untuk memprediksi kelas nyata secara kuantitatif — validitas eksternal — memerlukan kalibrasi parameter menggunakan data LMS aktual, yang merupakan arah penelitian lanjutan.
 
 **Kelima, konteks sosial yang disederhanakan.** Jaringan pertemanan, dinamika kelompok, pengaruh media sosial, dan tekanan dari luar kampus tidak dimodelkan secara eksplisit. Faktor-faktor ini dapat memiliki dampak signifikan pada motivasi dan kinerja mahasiswa di kelas nyata.
+
+**Keenam, keterbatasan analisis sensitivitas OAT.** Analisis sensitivitas one-at-a-time mengasumsikan independensi antar-parameter. Sebagaimana ditunjukkan pada skenario kasus terburuk (Bagian 4.5), kombinasi kondisi buruk menghasilkan efek interaksi non-linear yang tidak dapat diprediksi dari analisis variabel tunggal. Interaksi antar-parameter seperti ini memerlukan pendekatan analisis faktorial atau *global sensitivity analysis* pada penelitian lanjutan.
 
 Keterbatasan-keterbatasan di atas tidak mengurangi nilai kontribusi prototipe ini sebagai alat eksplorasi kebijakan berbasis bukti kualitatif. Namun, penelitian lanjutan yang mengintegrasikan data empiris nyata diperlukan sebelum model ini dapat digunakan sebagai *digital twin* dalam pengertian prediktif penuh (Rasheed et al., 2020).
