@@ -635,41 +635,42 @@
 
     <span class="kw">for</span> student <span class="kw">in</span> active_students:
 
-        <span class="comment"># Step 1 — Will they show up?</span>
-        <span class="comment">#   probability driven by: stress ↓, motivation ↑,</span>
-        <span class="comment">#   room temperature ↓, morning schedule ↓</span>
+
+        <span class="comment"># ─── Step 1: Attendance ───────────────────────</span>
+        <span class="comment"># Probability driven by stress ↓, motivation ↑,</span>
+        <span class="comment"># room temperature ↓, morning schedule ↓</span>
 
         attended = <span class="fn">draw_attendance</span>(student)
 
 
-        <span class="comment"># Step 2 — Do the assignments get done?</span>
-        <span class="comment">#   each task → on-time, late, or missed</span>
+        <span class="comment"># ─── Step 2: Assignments ──────────────────────</span>
+        <span class="comment"># Each task evaluated: on-time, late, or missed</span>
 
         submitted, late, missed = <span class="fn">draw_assignments</span>(student)
 
 
-        <span class="comment"># Step 3 — Update stress</span>
-        <span class="comment">#   ↑ workload + pending feedback + absence</span>
-        <span class="comment">#   ↓ rest + feedback relief + SES buffer + grit</span>
+        <span class="comment"># ─── Step 3: Stress ───────────────────────────</span>
+        <span class="comment"># ↑ workload + pending feedback + absence</span>
+        <span class="comment"># ↓ rest + feedback relief + SES buffer + grit</span>
 
         student.stress = <span class="fn">update_stress</span>(student, attended)
 
 
-        <span class="comment"># Step 4 — Learn the current topic</span>
-        <span class="comment">#   Δk = rate × attended × effectiveness × capacity</span>
-        <span class="comment">#      × motivation × (1 − stress) × difficulty × slump</span>
+        <span class="comment"># ─── Step 4: Knowledge ────────────────────────</span>
+        <span class="comment"># Δk = rate × attended × effectiveness × capacity</span>
+        <span class="comment">#    × motivation × (1 − stress) × difficulty × slump</span>
 
         student.knowledge = <span class="fn">update_knowledge</span>(student, topic)
 
 
-        <span class="comment"># Step 5 — Motivation & fatigue</span>
+        <span class="comment"># ─── Step 5: Motivation & Fatigue ─────────────</span>
 
         student.motivation = <span class="fn">update_motivation</span>(student)
         student.fatigue    = <span class="fn">update_fatigue</span>(student)
 
 
-        <span class="comment"># Step 6 — Peer learning (ZPD transfer)</span>
-        <span class="comment">#   knowledge flows from strongest → weakest in group</span>
+        <span class="comment"># ─── Step 6: Peer Learning ────────────────────</span>
+        <span class="comment"># Knowledge flows from strongest → weakest (ZPD)</span>
 
         <span class="fn">apply_peer_learning</span>(student, study_group)
 
