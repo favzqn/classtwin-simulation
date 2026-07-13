@@ -117,7 +117,7 @@ def fig_kerangka_pikir(outpath):
     box(0.3, 0.3, 2.8, 1.2, "Celah Penelitian", "Model ABM pendidikan\ntidak aksesibel", "#FCE4EC", "#C62828")
 
     # Column 2: Solution (center)
-    box(3.8, 2.8, 4.4, 2.4, "ClassTwin", "Model ABM 14 minggu\nMesa + Streamlit",
+    box(3.8, 2.8, 4.4, 2.4, "ClassTwin", "Model ABM 14 minggu\nNumPy + Pydantic + Streamlit",
         "#E8F5E9", "#2E7D32", fs=12)
     box(3.8, 0.3, 2.0, 2.2, "5 Skenario\nKelompok", "RQ1–RQ5", "#E3F2FD", "#1565C0")
     box(6.1, 0.3, 2.1, 2.2, "Validasi\nModel", "Face validity\nClamp & det.", "#E3F2FD", "#1565C0")
@@ -279,7 +279,7 @@ def fig_alur_penelitian(outpath):
     steps = [
         (13.1, "Identifikasi Masalah\n& Studi Literatur", "#FFF3E0", "#E65100"),
         (11.5, "Perancangan Arsitektur\nModel (Agen & Aturan)", "#E8F5E9", "#2E7D32"),
-        (9.9,  "Implementasi Model\n(Mesa + Python + Pydantic)", "#E8F5E9", "#2E7D32"),
+        (9.9,  "Implementasi Model\n(NumPy + Python + Pydantic)", "#E8F5E9", "#2E7D32"),
         (8.3,  "Desain 15 Skenario\nEksperimen (RQ1–RQ5)", "#E3F2FD", "#1565C0"),
         (6.7,  "Eksekusi Eksperimen\n(15 skenario × 20 seed)", "#E3F2FD", "#1565C0"),
         (5.1,  "Analisis Sensitivitas OAT\n& Uji Validasi", "#E3F2FD", "#1565C0"),
@@ -399,8 +399,8 @@ def fig_arsitektur_model(outpath):
     arrow(8.5, 4.1, 9.1, 3.0, "instansiasi", "#2E7D32")  # model → lecturer
     arrow(6.5, 3.3, 6.5, 1.5, "hasil", "#C62828")        # model → output
 
-    # Mesa label
-    ax.text(6.5, 6.9, "Mesa Framework (Kazil et al., 2020) — Python 3.13",
+    # Framework label
+    ax.text(6.5, 6.9, "Custom Agent Loop (NumPy + Pydantic) — Python 3.13",
             ha="center", fontsize=9, color="#777", style="italic")
 
     ax.set_title("Gambar 3.1. Arsitektur Model ClassTwin",

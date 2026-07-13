@@ -22,9 +22,9 @@
 
 ---
 
-### 2. "Parameter illustratif — `base_learning_rate = 0.28` dari mana?"
+### 2. "Parameter illustratif — `base_learning_rate = 0.42` dari mana?"
 
-**Pertanyaan penguji:** *"Bagaimana Anda memilih nilai parameter seperti 0.28? Apa justifikasinya?"*
+**Pertanyaan penguji:** *"Bagaimana Anda memilih nilai parameter seperti 0.42? Apa justifikasinya?"*
 
 **Jawaban:**
 > Parameter dipilih melalui dua langkah. Pertama, **batas range** ditentukan dari literatur — misalnya efek ukuran kelas dari meta-analisis Hattie (2008) dan Glass & Smith (1979) memberikan batas atas/bawah yang masuk akal. Kedua, nilai spesifik di dalam range tersebut dipilih secara iteratif agar menghasilkan baseline IPK ~3.0, yang merepresentasikan kelas "normal" di PT Indonesia. Ini adalah pendekatan standar untuk model ABS eksplorasi kebijakan sebelum kalibrasi empiris — sebagaimana diakui secara eksplisit di Bab 3.10 dan Bab 5.3. Kalibrasi dengan data LMS nyata adalah saran penelitian lanjutan yang jelas.

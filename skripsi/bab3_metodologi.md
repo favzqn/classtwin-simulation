@@ -8,7 +8,7 @@ Dari sudut pandang desain penelitian, pendekatan yang digunakan mengikuti kerang
 
 Pendekatan kuantitatif digunakan karena seluruh variabel yang dianalisis (IPK rata-rata, tingkat kegagalan, tingkat stres, tingkat kehadiran) direpresentasikan sebagai nilai numerik yang dapat dibandingkan secara statistik menggunakan metrik agregat dan interval kepercayaan.
 
-Model diimplementasikan menggunakan **Mesa** (Kazil et al., 2020), kerangka kerja simulasi berbasis agen berbasis Python. Pemilihan Mesa atas alternatif seperti NetLogo atau Repast didasarkan pada: (1) integrasi langsung dengan ekosistem Python (NumPy, pandas, Streamlit), (2) reprodusibilitas penuh melalui `requirements.txt` dan konfigurasi JSON terserialisasi, dan (3) aksesibilitas pengembangan lanjutan bagi peneliti yang familiar dengan Python.
+Model diimplementasikan menggunakan *agent loop* kustom berbasis Python dengan NumPy untuk pembangkitan bilangan acak dan Pydantic untuk konfigurasi. Pemilihan pendekatan kustom atas alternatif seperti Mesa (Kazil et al., 2020), NetLogo, atau Repast didasarkan pada: (1) kontrol penuh atas alur simulasi tanpa abstraksi tambahan yang tidak diperlukan, (2) reprodusibilitas penuh melalui `requirements.txt` dan konfigurasi JSON terserialisasi, (3) integrasi langsung dengan ekosistem Python (pandas, matplotlib, Streamlit), dan (4) ringan tanpa dependensi kerangka kerja ABM eksternal. Arsitektur ini memisahkan aturan pembaruan (*dynamics*) sebagai fungsi murni tanpa *side effect*, memungkinkan pengujian unit secara independen.
 
 ---
 
@@ -74,15 +74,13 @@ Tahapan penelitian terdiri dari empat fase utama:
 
 ---
 
-### 3.6 Gambaran Umum Model
-
-### 3.7 Gambaran Umum Model
+### 3.6 Arsitektur Model
 
 ![Gambar 3.1. Arsitektur Model ClassTwin](../figures/gambar_3_1_arsitektur_model.png)
 
 *Gambar 3.1. Arsitektur model ClassTwin: SimulationConfig mendefinisikan seluruh parameter secara deklaratif, ClassroomModel mengorkestrasikan eksperimen, dan dua jenis agen (StudentAgent × N dan LecturerAgent × 1) menghasilkan output yang dianalisis oleh ScenarioRunner dan dashboard Streamlit.*
 
-Model *Classroom Ecosystem Digital Twin* (ClassTwin) adalah simulasi berbasis agen berjenis diskret-waktu (*discrete-time*) yang diimplementasikan menggunakan kerangka kerja Mesa (Kazil et al., 2020). Setiap langkah waktu merepresentasikan satu minggu perkuliahan, dan simulasi dijalankan selama 14 minggu (satu semester penuh).
+Model *Classroom Ecosystem Digital Twin* (ClassTwin) adalah simulasi berbasis agen berjenis diskret-waktu (*discrete-time*) yang diimplementasikan menggunakan *agent loop* kustom berbasis Python dengan NumPy. Setiap langkah waktu merepresentasikan satu minggu perkuliahan, dan simulasi dijalankan selama 14 minggu (satu semester penuh).
 
 Model terdiri dari dua jenis agen:
 
