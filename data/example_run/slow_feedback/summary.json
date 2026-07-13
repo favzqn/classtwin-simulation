@@ -1,0 +1,16 @@
+{
+  "n_students": 30,
+  "n_weeks": 14,
+  "mean_gpa": 1.3658,
+  "std_gpa": 0.232,
+  "failure_rate": 1.0,
+  "mean_final_knowledge": 0.1317,
+  "mean_final_stress": 0.4945,
+  "mean_attendance_rate": 0.8333,
+  "mean_completion_rate": 0.8393,
+  "dropout_rate": 0.0,
+  "at_risk_rate": 0.9333,
+  "gini_gpa": 0.0954,
+  "mean_satisfaction": 0.7596,
+  "mean_final_fatigue": 0.0
+}

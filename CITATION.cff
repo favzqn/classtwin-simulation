@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "ClassTwin: Classroom Ecosystem Digital Twin"
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+authors:
+  - name: "Fauzan"
+    affiliation: "Universitas Widyatama"
+    city: "Bandung"
+    country: "ID"
+repository-code: "https://github.com/favzqn/classtwin-simulation"
+license: MIT
+year: 2026
+keywords:
+  - agent-based simulation
+  - digital twin
+  - education
+  - policy analysis
+  - higher education
+  - classroom
+abstract: >-
+  Agent-based simulation for "what-if" policy analysis in higher education.
+  Simulates a 14-week university semester with student agents (stress, knowledge,
+  motivation, attendance, SES) and a lecturer agent (feedback delay, assignment load,
+  adaptivity). Enables comparison of class size, feedback timing, workload, and
+  environmental factors before applying changes in real classrooms.
